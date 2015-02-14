@@ -1,0 +1,110 @@
+<!doctype html>
+
+<html ng-app="logApp">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Node/Angular Todo App</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="bower_components\bootstrap\dist\css\bootstrap.min.css"><!-- load bootstrap -->
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+		#todo-form 	 			{ margin-bottom:50px; }
+	</style>
+  
+  	<style>
+            .button {
+    -moz-appearance: button;
+    /* Firefox */
+    -webkit-appearance: button;
+    /* Safari and Chrome */
+    padding: 10px;
+    margin: 10px;
+    width: 70px;
+}
+.drop-box {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 200px;
+    height: 65px;
+    text-align: center;
+    padding-top: 25px;
+    margin: 10px;
+}
+.dragover {
+    border: 5px dashed blue;
+}
+    </style>
+
+	<!-- SPELLS -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-google-chart/ng-google-chart.js"></script>
+	<script src="bower_components/ng-file-upload/angular-file-upload.min.js"></script>
+	<script src="bower_components/ng-file-upload/angular-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="logApp.js"></script>
+	<script src="services/logService.js"></script>
+	<script src="controllers/mainController.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
+<body ng-controller="mainController">
+	<div class="container">
+
+		<!-- HEADER AND TODO COUNT -->
+		<div class="jumbotron text-center">
+			<h1>Ninja Log</h1>
+			<img height="42" width="42" src="http://cdn2.hubspot.net/hub/245562/file-306538470-png/v3/ninja2.png?t=1423691738911" />
+
+		</div>
+
+	 <button class="btn btn-default" ng-click="getLogFromServer()">Show Server Logs</button>
+	 <span class="btn btn-default btn-file">
+     <input  type="file" id="file" name="file" onchange="angular.element(this).scope().fileNameChanged()"/>
+	 </span>
+	  <button  ng-show="selectedFile" class="btn btn-primary btn-sm" ng-click="addFile()">Add</button>
+	  <img ng-show="loading" src="img/spiffygif_32x32.gif">
+	  <!--Chart -->
+	  <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
+	<select ng-model="interval" ng-options="interval.name for interval in intervals" ng-change="createTableData()">
+    </select>
+    <select ng-model="swarmModel" ng-options="swarm for swarm in swarms" ng-change="createTableData(swarmModel)">
+    </select>
+
+	  <!--Table -->
+   
+    <div class="checkbox">
+	    <label>
+	      <input ng-model="showTable" type="checkbox"> Show table 	
+	    </label>
+  	</div>
+	  <table ng-show="showTable" class="table">
+	  <tr>
+	    <th>PeerId</th>
+	    <th>SwarmId</th>
+	    <th>Join</th>
+	    <th>Leave</th>
+
+	  </tr>
+	  <tr ng-repeat="entry in logEntries">
+	    <td>{{entry.peerId}}</td>
+	    <td>{{entry.swarmId}}</td>
+	    <td>{{entry.join}}</td>
+	    <td>{{entry.leave}}</td>
+	  </tr>
+	</table>
+		
+
+	<div class="text-center text-muted">
+			<p>Created by <a href="https://www.linkedin.com/pub/michael-loewenstein/22/9a5/713">Michael Loewenstein</a>.</p>
+	</div>
+
+	</div>
+
+</body>
+</html>
