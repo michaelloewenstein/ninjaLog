@@ -1,1 +1,1 @@
-var myApp = angular.module('logApp',['angularFileUpload','googlechart','ngResource','logApp.Services','myApp.controllers']);
+var myApp = angular.module('logApp', ['angularFileUpload', 'googlechart', 'ngResource', 'logApp.Services', 'myApp.controllers']);
