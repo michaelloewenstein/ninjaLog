@@ -75,7 +75,7 @@ module.controller('mainController', ["$scope", "logsService", function($scope, l
 
 		while (end != -1) {
 			//find {} blocks along with current line's date
-			var time = new Date(entries.substring(0, timeLength));
+			var time = new Date(entries.substring(0, timeLength).replace('T',' ').replace('Z',' '));
 			var start = entries.indexOf('{');
 			var end = entries.indexOf('}');
 
