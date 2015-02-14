@@ -106,7 +106,7 @@ module.controller('mainController', ["$scope", "logsService", function($scope, l
 						logEntries.push(entry);
 					}
 
-					//maintain an array of single instance dwarms
+					//maintain an array of unique swarms
 					var newSwarmEntry = true;
 					for (var i = 0; i < swarms.length; i++) {
 						if (swarms[i] == entry.swarmId) {
@@ -127,8 +127,27 @@ module.controller('mainController', ["$scope", "logsService", function($scope, l
 		}
 
 		//add the array of log entries \ swarms to the current array
+		//a peer can have multiple entries
 		$scope.logEntries = $scope.logEntries.concat(logEntries);
-		$scope.swarms = $scope.swarms.concat(swarms);
+		//swarm are uniques
+		for(var i = 0; i< swarms.length; i++)
+		{
+			var newSwarm = true;
+			for(var j = 0; j< $scope.swarms.length; j++)
+			{
+				if($scope.swarms[j] == swarms[i])
+				{
+					newSwarm = false;
+					break;
+				}
+				
+			}	
+			if(newSwarm)
+			{
+				$scope.swarms.push(swarms[i]);
+			}
+		}
+		
 		//represents all swarms in the UI
 		$scope.swarmModel = '*';
 		if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
